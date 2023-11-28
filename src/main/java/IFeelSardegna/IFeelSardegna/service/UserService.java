@@ -14,7 +14,10 @@ public class UserService {
 @Autowired
 private UserRepository userRepository;
 
-    public User findById(long id) throws NotFoundException {
-        return (User) userRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
+    public User findById(long id){
+        return userRepository.findById(id).orElseThrow(()-> new NotFoundException(id));
+    }
+    public User findByEmail(String email){
+        return userRepository.findByEmail(email).orElseThrow(()-> new NotFoundException(email));
     }
 }
