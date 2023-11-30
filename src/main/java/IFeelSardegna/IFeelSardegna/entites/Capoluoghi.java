@@ -1,16 +1,16 @@
 package IFeelSardegna.IFeelSardegna.entites;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @Entity
-public class Province {
+@JsonIgnoreProperties("province")
+public class Capoluoghi {
     @Id
     @GeneratedValue
     private int id;
@@ -19,7 +19,6 @@ public class Province {
     private String text;
     private String introText;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "province_id")
-    private List<Capoluoghi> capoluoghi;
+    @ManyToOne
+    private Province province;
 }

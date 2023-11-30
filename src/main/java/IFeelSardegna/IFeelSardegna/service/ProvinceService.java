@@ -1,5 +1,6 @@
 package IFeelSardegna.IFeelSardegna.service;
 
+import IFeelSardegna.IFeelSardegna.entites.Capoluoghi;
 import IFeelSardegna.IFeelSardegna.entites.Province;
 import IFeelSardegna.IFeelSardegna.entites.User;
 import IFeelSardegna.IFeelSardegna.exceptions.NotFoundException;
@@ -7,6 +8,8 @@ import IFeelSardegna.IFeelSardegna.payloads.entities.NewProvinciaDTO;
 import IFeelSardegna.IFeelSardegna.repository.PronviceRepository;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class ProvinceService {
@@ -47,13 +52,14 @@ public class ProvinceService {
         Province saveProvincia = pronviceRepository.save(Newprovincia);
         return saveProvincia;
     }
-
     public Province findByIdAndUpdate(Long id, Province body) {
         Province provincia = pronviceRepository.findById(id).get();
         provincia.setName(body.getName());
         provincia.setCover(body.getCover());
         provincia.setText(body.getText());
         provincia.setIntroText(body.getIntroText());
+        provincia.setCapoluoghi(body.getCapoluoghi());
+
         return pronviceRepository.save(provincia);
     }
 
