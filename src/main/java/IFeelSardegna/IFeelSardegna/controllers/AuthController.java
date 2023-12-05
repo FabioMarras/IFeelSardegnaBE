@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -30,7 +32,11 @@ public class AuthController {
         if(validation.hasErrors()){
             throw new BadRequestException(validation.getAllErrors());
         } else {
-            return authService.save(body);
+            try {
+                return authService.registerUser(body);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }

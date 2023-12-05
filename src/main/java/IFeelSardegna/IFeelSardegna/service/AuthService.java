@@ -12,6 +12,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.io.IOException;
+import java.util.Arrays;
+
 @Service
 public class AuthService {
     @Autowired
@@ -26,16 +29,20 @@ public class AuthService {
     @Autowired
     private PasswordEncoder bcrypt;
 
-    public String authenticateUser(UserLoginDTO body){
+    public String[] authenticateUser(UserLoginDTO body) {
         User user = userService.findByEmail(body.email());
-        if(bcrypt.matches(body.password(), user.getPassword())) {
-            return jwtTools.createToken(user);
+        if (bcrypt.matches(body.password(), user.getPassword())) {
+            return new String[]{jwtTools.createToken(user), user.getName()};
         } else {
             throw new UnauthorizedException("Credenziali non valide");
         }
     }
 
-    public User save(@RequestBody NewUserDTO body){
+    public User registerUser(NewUserDTO body) throws IOException {
+
+        // verifico se l'email è già utilizzata
+
+
         User newUser = new User();
         newUser.setUsername(body.username());
         newUser.setName(body.name());
@@ -43,7 +50,8 @@ public class AuthService {
         newUser.setEmail(body.email());
         newUser.setPassword(bcrypt.encode(body.password()));
         newUser.setRole(Role.USER);
-        User saveUser = userRepository.save(newUser);
-        return saveUser;
+        userRepository.save(newUser);
+
+        return newUser;
     }
 }
