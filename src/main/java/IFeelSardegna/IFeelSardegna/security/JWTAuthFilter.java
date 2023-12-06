@@ -49,7 +49,13 @@ import java.util.UUID;
 
         @Override
         protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+            String servletPath = request.getServletPath();
+            AntPathMatcher pathMatcher = new AntPathMatcher();
 
-            return new AntPathMatcher().match("/auth/**", request.getServletPath()) || "/province".equals(request.getServletPath());
+            return pathMatcher.match("/auth/**", servletPath) ||
+                    "/province".equals(servletPath) ||
+                    pathMatcher.match("/mari/**", servletPath) ||
+                    pathMatcher.match("/città/**", servletPath) ||
+                    pathMatcher.match("/terme/**", servletPath);
         }
     }
