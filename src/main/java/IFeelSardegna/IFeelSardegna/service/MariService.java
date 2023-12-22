@@ -45,14 +45,18 @@ public class MariService {
         NewMari.setName(body.name());
         NewMari.setCover(body.cover());
         NewMari.setText(body.text());
+        NewMari.setSpiaggiaDetails(body.spiaggiaDetails());
+        NewMari.setMariDetails(body.mariDetails());
         Mari saveMari = mariRepository.save(NewMari);
         return saveMari;
     }
-    public Mari findByIdAndUpdate(Long id, Mari body) {
+    public Mari findByIdAndUpdate(Long id, NewMareDTO body) {
         Mari mari = mariRepository.findById(id).get();
-        mari.setName(body.getName());
-        mari.setCover(body.getCover());
-        mari.setText(body.getText());
+        mari.setName(body.name());
+        mari.setCover(body.cover());
+        mari.setText(body.text());
+        mari.setSpiaggiaDetails(body.spiaggiaDetails());
+        mari.setMariDetails(body.mariDetails());
         return mariRepository.save(mari);
     }
 

@@ -44,7 +44,7 @@ public class MariController {
     }
 
     @PutMapping("/{id}")
-    public Mari findByIdAndUpdate(@PathVariable long id, @RequestBody Mari body){
+    public Mari findByIdAndUpdate(@PathVariable long id, @RequestBody NewMareDTO body){
         return mariService.findByIdAndUpdate(id, body);
     }
 
